@@ -2,6 +2,7 @@ import * as path from 'path'
 import * as fs from 'fs-extra'
 import * as _ from 'lodash'
 import * as globby from 'globby'
+import { replaceTscAliasPaths} from 'tsc-alias';
 
 import * as typescript from './typescript'
 import { watchFiles } from './watchFiles'
@@ -189,6 +190,9 @@ export class TypeScriptPlugin {
 
     const emitedFiles = await typescript.run(this.rootFileNames, tsconfig)
     this.serverless.cli.log('Typescript compiled.')
+
+    await replaceTscAliasPaths();
+
     return emitedFiles
   }
 
